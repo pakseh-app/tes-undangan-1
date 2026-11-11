@@ -3,305 +3,547 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kanaya & Bima · Undangan Pernikahan</title>
+<title>Undangan Pernikahan Kanaya & Bima</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Special+Elite&display=swap" rel="stylesheet">
 <style>
-:root{
-  --paper:#faf6ef; --ink:#2b2b2b; --red:#b5482f; --blue:#3a6b8f;
-  --tape:rgba(200,180,140,.55); --sketch:#8a8a8a;
-}
+:root{--paper:#faf6ef;--ink:#2b2b2b;--red:#b5482f;--blue:#3a6b8f;--tape:rgba(200,180,140,.55)}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  background:var(--paper); color:var(--ink);
-  font-family:'Patrick Hand',cursive; overflow-x:hidden;
-  /* arsiran kertas sketsa */
-  background-image:repeating-linear-gradient(45deg,transparent 0 40px,rgba(0,0,0,.015) 40px 41px);
-}
-/* goyangkan garis biar seperti digambar tangan */
-.sk{stroke:var(--ink);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+body{background:var(--paper);color:var(--ink);font-family:'Patrick Hand',cursive;overflow-x:hidden;
+background-image:repeating-linear-gradient(45deg,transparent 0 40px,rgba(0,0,0,.015) 40px 41px)}
+img{max-width:100%}
 .hand{font-family:'Caveat',cursive}
 .caps{font-family:'Special Elite',monospace;letter-spacing:3px;font-size:.65rem;text-transform:uppercase}
-.wrap{max-width:480px;margin:0 auto;padding:0 18px 90px}
-
-/* ===== HEADER TIAP LEMBAR ===== */
-.sheet-head{display:flex;justify-content:space-between;align-items:center;
-  border-bottom:2px dashed rgba(0,0,0,.25);padding:14px 4px;gap:8px}
+.wrap{max-width:480px;margin:0 auto;padding:0 18px 100px}
+.sheet{min-height:100vh;padding:18px 0 30px}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed rgba(0,0,0,.25);padding:14px 4px;gap:8px;flex-wrap:wrap}
 .sheet-head .caps{color:#666}
-.badge{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:2px;
-  border:2px solid var(--ink);padding:4px 10px;transform:rotate(-1.5deg);white-space:nowrap}
-.section-label{text-align:center;margin:34px 0 8px;color:#777}
+.badge{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:2px;border:2px solid var(--ink);padding:4px 10px;transform:rotate(-1.5deg);white-space:nowrap}
+.section-label{text-align:center;margin:34px 0 6px}
 .section-label .caps{color:var(--red)}
-.section-title{font-family:'Caveat',cursive;font-size:2rem;text-align:center;margin-bottom:14px}
-
-/* ===== TRANSPARAN LEMBAR ===== */
-.sheet{min-height:100vh;padding:20px 0 40px;opacity:0;transform:translateY(30px);
-  transition:opacity .8s ease, transform .8s ease}
-.sheet.visible{opacity:1;transform:none}
-
-/* ===== REVEAL ON SCROLL ===== */
-.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease}
+.section-title{font-family:'Caveat',cursive;font-size:2rem;text-align:center;margin-bottom:16px}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
 .rv.visible{opacity:1;transform:none}
-
-/* ===== BADGE NEXT (transisi lembar) ===== */
 .next-sheet{display:flex;justify-content:flex-end;padding:26px 0}
-.next-sheet a{font-family:'Special Elite',monospace;font-size:.65rem;letter-spacing:2px;
-  border:2px solid var(--ink);padding:8px 14px;text-decoration:none;color:var(--ink);
-  transform:rotate(1deg);transition:transform .25s, background .25s}
-.next-sheet a:hover{transform:rotate(-1deg) scale(1.05);background:rgba(181,72,47,.1)}
-
-/* ===== RULER ===== */
-.ruler{margin:30px 0 12px;position:relative}
-.ruler .ticks{display:flex;justify-content:space-between}
-.ruler .tick{width:1px;background:var(--ink);height:8px}
-.ruler .tick.tall{height:14px}
-.ruler .arrows{display:flex;justify-content:space-between;font-size:.8rem;margin-top:2px}
-
-/* ===== POLAROID ===== */
-.polaroid{background:#fff;border:2px solid var(--ink);padding:10px 10px 30px;
-  box-shadow:4px 5px 0 rgba(0,0,0,.12);position:relative}
-.polaroid.r1{transform:rotate(-2deg)} .polaroid.r2{transform:rotate(2deg)}
-.polaroid img{width:100%;display:block;filter:grayscale(1) contrast(1.05);min-height:200px;object-fit:cover}
-.clip{position:absolute;top:-12px;width:46px;height:20px;border:2px solid var(--ink);
-  border-radius:10px;background:var(--tape);transform:rotate(-6deg)}
-.clip.right{right:22px;transform:rotate(5deg)}
-
-/* ===== CARD BERSOLOTP ===== */
-.taped{background:#fff;border:2px solid var(--ink);padding:22px;position:relative;
-  box-shadow:4px 5px 0 rgba(0,0,0,.08)}
-.taped::before,.taped::after{content:'';position:absolute;top:-12px;width:70px;height:20px;
-  background:var(--tape);transform:rotate(-4deg)}
-.taped::before{left:-18px} .taped::after{right:-18px;transform:rotate(5deg)}
-
-/* ===== STAMP ===== */
-.stamp{display:inline-block;font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:2px;
-  color:var(--red);border:3px double var(--red);padding:6px 12px;transform:rotate(-6deg);
-  text-transform:uppercase}
-
-/* ===== PROFIL MEMPELAI ===== */
-.profile{display:flex;gap:14px;align-items:flex-start;margin:24px 0}
-.profile .photo{flex:0 0 130px;border:2px solid var(--ink);padding:6px;background:#fff;
-  box-shadow:4px 5px 0 rgba(0,0,0,.12);transform:rotate(-1.5deg)}
-.profile .photo img{width:100%;display:block;filter:grayscale(1)}
-.profile .info .tag{color:var(--red)} .profile .info .tag.b{color:var(--blue)}
-.profile .info h3{font-family:'Caveat',cursive;font-size:1.6rem;line-height:1.1;margin:4px 0}
-.profile .info p{font-size:.85rem;color:#555}
-.btn-ig{display:inline-flex;align-items:center;gap:6px;font-family:'Special Elite',monospace;
-  font-size:.6rem;letter-spacing:2px;border:2px dashed var(--ink);padding:8px 12px;
-  margin-top:10px;text-decoration:none;color:var(--ink);transition:background .2s}
+.next-sheet a{font-family:'Special Elite',monospace;font-size:.65rem;letter-spacing:2px;border:2px solid var(--ink);padding:8px 14px;text-decoration:none;color:var(--ink);transform:rotate(1deg);transition:transform .25s,background .25s;background:#fff}
+.next-sheet a:hover{transform:rotate(-1deg) scale(1.05);background:rgba(181,72,47,.12)}
+.polaroid{background:#fff;border:2px solid var(--ink);padding:10px 10px 34px;box-shadow:4px 5px 0 rgba(0,0,0,.12);position:relative}
+.polaroid img{width:100%;display:block;filter:grayscale(1) contrast(1.05);min-height:180px;object-fit:cover}
+.polaroid .pnum{position:absolute;bottom:8px;right:12px;font-family:'Caveat',cursive;font-size:1.2rem;color:#aaa}
+.r1{transform:rotate(-2deg)} .r2{transform:rotate(2deg)}
+.clip{position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(-4deg);width:46px;height:20px;border:2px solid var(--ink);border-radius:10px;background:var(--tape)}
+.taped{background:#fff;border:2px solid var(--ink);padding:22px;position:relative;box-shadow:4px 5px 0 rgba(0,0,0,.08);margin:22px 0}
+.taped::before,.taped::after{content:'';position:absolute;top:-12px;width:70px;height:20px;background:var(--tape);transform:rotate(-4deg)}
+.taped::before{left:-18px}.taped::after{right:-18px;transform:rotate(5deg)}
+.stamp{display:inline-block;font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:2px;color:var(--red);border:3px double var(--red);padding:6px 12px;transform:rotate(-6deg);text-transform:uppercase}
+.profile{display:flex;gap:14px;align-items:flex-start;margin:28px 0}
+.profile .photo{flex:0 0 130px;border:2px solid var(--ink);padding:6px;background:#fff;box-shadow:4px 5px 0 rgba(0,0,0,.12);transform:rotate(-1.5deg)}
+.profile .photo img{filter:grayscale(1);min-height:150px;object-fit:cover}
+.profile h3{font-family:'Caveat',cursive;font-size:1.6rem;line-height:1.1;margin:4px 0}
+.profile p{font-size:.85rem;color:#555}
+.tag{color:var(--red)} .tagb{color:var(--blue)}
+.btn-ig{display:inline-flex;align-items:center;gap:6px;font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:2px;border:2px dashed var(--ink);padding:8px 12px;margin-top:10px;text-decoration:none;color:var(--ink);transition:background .2s}
 .btn-ig:hover{background:rgba(0,0,0,.05)}
-
-/* ===== KALENDER ===== */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;padding:13px 22px;border:2px solid var(--ink);background:#fff;cursor:pointer;text-decoration:none;color:var(--ink);transition:transform .2s,box-shadow .2s;transform:rotate(-.5deg)}
+.btn:hover{transform:rotate(.5deg) translateY(-2px);box-shadow:3px 4px 0 rgba(0,0,0,.15)}
+.btn.primary{background:var(--ink);color:#fff}
 .cal{border:2px solid var(--ink);background:#fff;padding:14px;margin:18px 0}
-.cal .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;
-  font-size:.85rem;margin-top:10px}
+.cal .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:.85rem;margin-top:10px}
 .cal .dow{font-family:'Special Elite',monospace;font-size:.55rem;color:#888}
-.cal .day{padding:8px 0;position:relative}
-.cal .day.sel{outline:2px solid var(--red);outline-offset:-2px;border-radius:50%;color:var(--red);
-  font-weight:bold;transform:rotate(-3deg)}
-.cal .day.mute{color:#ccc}
-.cal .day.sel::after{content:'●';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--red)}
-
-/* ===== QUOTE ===== */
-blockquote{border-left:3px solid var(--ink);padding:6px 0 6px 18px;margin:20px 0;
-  font-style:italic;color:#444;font-size:.95rem}
-blockquote .big-quote{font-family:'Caveat',cursive;font-size:3.5rem;line-height:0;color:var(--red)}
-
-/* ===== GALERI ===== */
+.cal .day{padding:8px 0}
+.cal .day.mute{color:#ddd}
+.cal .day.sel{outline:2px solid var(--red);outline-offset:-2px;border-radius:50%;color:var(--red);font-weight:bold;transform:rotate(-4deg)}
+blockquote{border-left:3px solid var(--ink);padding-left:18px;margin:16px 0;font-style:italic;color:#444;font-size:.95rem}
+.big-quote{font-family:'Caveat',cursive;font-size:3.5rem;line-height:0;color:var(--red)}
 .gallery{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
 .gallery .item{position:relative;cursor:pointer;transition:transform .25s}
 .gallery .item:hover{transform:rotate(1.5deg) scale(1.03)}
-.gallery .item .num{position:absolute;bottom:34px;right:10px;font-family:'Caveat',cursive;
-  font-size:1.2rem;color:#fff;z-index:2}
-.gallery .item img{filter:grayscale(1);min-height:150px;object-fit:cover}
-
-/* lightbox */
-#lightbox{position:fixed;inset:0;background:rgba(20,15,10,.92);display:none;
-  align-items:center;justify-content:center;z-index:200;padding:20px}
+.gallery .item img{width:100%;filter:grayscale(1);min-height:150px;object-fit:cover;display:block}
+.legend{display:flex;gap:16px;margin:14px 0}
+.legend .sw{width:34px;height:34px;border:2px solid var(--ink)}
+#lightbox{position:fixed;inset:0;background:rgba(20,15,10,.92);display:none;align-items:center;justify-content:center;z-index:400;padding:20px}
 #lightbox.open{display:flex}
 #lightbox img{max-width:95%;max-height:85vh;border:6px solid #fff;transform:rotate(-1deg)}
 #lightbox button{position:absolute;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;padding:12px}
 #lightbox .close{top:10px;right:14px}
-#lightbox .prev{left:4px} #lightbox .next{right:4px}
-
-/* ===== DRESS CODE ===== */
-.legend{display:flex;gap:14px;margin:12px 0}
-.legend .sw{width:34px;height:34px;border:2px solid var(--ink)}
-.legend .hex{font-family:'Special Elite',monospace;font-size:.65rem;color:#666}
-
-/* ===== TOMBOL UTAMA ===== */
-.btn{display:inline-flex;align-items:center;gap:10px;font-family:'Special Elite',monospace;
-  font-size:.7rem;letter-spacing:2px;text-transform:uppercase;padding:13px 22px;
-  border:2px solid var(--ink);background:#fff;cursor:pointer;text-decoration:none;color:var(--ink);
-  transition:transform .2s, box-shadow .2s;transform:rotate(-.5deg)}
-.btn:hover{transform:rotate(.5deg) translateY(-2px);box-shadow:3px 4px 0 rgba(0,0,0,.15)}
-.btn.primary{background:var(--ink);color:#fff}
-
-/* ===== RULER-STYLE BOTTOM NAV ===== */
-.navbar{position:fixed;bottom:0;left:0;right:0;background:var(--paper);
-  border-top:2px solid var(--ink);z-index:100}
+#lightbox .prev{left:4px}#lightbox .next{right:4px}
+.navbar{position:fixed;bottom:0;left:0;right:0;background:var(--paper);border-top:2px solid var(--ink);z-index:100}
 .navbar .nav-inner{max-width:480px;margin:0 auto;display:flex;justify-content:space-around;padding:10px 6px 8px}
-.navbar a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;
-  color:#999;font-size:.55rem;font-family:'Special Elite',monospace;letter-spacing:1px;
-  border-bottom:3px solid transparent;padding-bottom:4px;transition:color .2s}
+.navbar a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#999;font-size:.55rem;font-family:'Special Elite',monospace;letter-spacing:1px;border-bottom:3px solid transparent;padding-bottom:4px;transition:color .2s}
 .navbar a.active{color:var(--ink);border-bottom-color:var(--red)}
-.navbar svg{width:22px;height:22px}
-
-/* ===== MUSIC BUTTON ===== */
-#musicBtn{position:fixed;right:16px;bottom:80px;z-index:110;width:52px;height:52px;
-  border:2px solid var(--ink);border-radius:50%;background:#fff;cursor:pointer;
-  box-shadow:3px 4px 0 rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
+.navbar svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#musicBtn{position:fixed;right:16px;bottom:86px;z-index:110;width:52px;height:52px;border:2px solid var(--ink);border-radius:50%;background:#fff;cursor:pointer;box-shadow:3px 4px 0 rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
 #musicBtn.playing svg{animation:spin 3s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* ===== MODAL ===== */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:300;
-  align-items:flex-end;justify-content:center}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:300;align-items:flex-end;justify-content:center}
 .modal.open{display:flex}
-.modal .panel{background:var(--paper);width:100%;max-width:480px;border-radius:18px 18px 0 0;
-  padding:14px 20px 30px;transform:translateY(100%);transition:transform .35s ease;
-  max-height:85vh;overflow-y:auto}
+.modal .panel{background:var(--paper);width:100%;max-width:480px;border-radius:18px 18px 0 0;padding:14px 22px 34px;transform:translateY(100%);transition:transform .35s ease;max-height:85vh;overflow-y:auto}
 .modal.open .panel{transform:none}
-.modal .handle{width:44px;height:5px;background:#bbb;border-radius:3px;margin:0 auto 12px}
-.modal h3{font-family:'Caveat',cursive;font-size:1.5rem}
-.modal label{display:block;font-family:'Special Elite',monospace;font-size:.6rem;
-  letter-spacing:2px;text-transform:uppercase;color:#777;margin:14px 0 4px}
-.modal input,.modal select,.modal textarea{width:100%;border:none;border-bottom:2px solid #999;
-  background:transparent;font-family:'Patrick Hand',cursive;font-size:1rem;padding:8px 2px;outline:none}
-.modal input:focus,.modal textarea:focus{border-color:var(--red)}
+.modal .handle{width:44px;height:5px;background:#bbb;border-radius:3px;margin:0 auto 14px}
+.modal h3{font-family:'Caveat',cursive;font-size:1.6rem}
+.modal label{display:block;font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:#777;margin:14px 0 4px}
+.modal input,.modal select,.modal textarea{width:100%;border:none;border-bottom:2px solid #999;background:transparent;font-family:'Patrick Hand',cursive;font-size:1rem;padding:8px 2px;outline:none}
+.modal input:focus,.modal textarea:focus,.modal select:focus{border-color:var(--red)}
 .modal textarea{resize:vertical;min-height:80px}
-.modal .close-x{float:right;border:2px solid var(--ink);background:#fff;width:32px;height:32px;
-  cursor:pointer;font-size:1rem}
-
-/* ===== RSVP STAMPS ===== */
-.opt{display:inline-flex;flex-direction:column;align-items:center;padding:10px 14px;margin:6px 6px 6px 0;
-  border:2px dashed #999;cursor:pointer;font-size:.85rem;background:#fff}
+.close-x{float:right;border:2px solid var(--ink);background:#fff;width:32px;height:32px;cursor:pointer;font-size:1rem}
+.opt{display:inline-flex;flex-direction:column;align-items:center;padding:10px 16px;margin:6px 6px 6px 0;border:2px dashed #999;cursor:pointer;font-size:.85rem;background:#fff}
 .opt.sel{border:2px solid var(--blue);color:var(--blue);transform:rotate(-2deg)}
-
-/* ===== FOOTER ===== */
-.footer{border-top:2px dashed rgba(0,0,0,.25);margin-top:40px;padding:18px 0 100px;text-align:center}
-.footer .caps{color:#888}
-.watermark{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:4px;color:rgba(0,0,0,.35);margin-top:12px}
-.wa-btn{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:12px 22px;
-  border:2px solid var(--ink);border-radius:50px;background:#25D366;color:#fff;text-decoration:none;
-  font-family:'Special Elite',monospace;font-size:.65rem;letter-spacing:2px;
-  transition:transform .2s;transform:rotate(-1deg)}
+.ruler{margin:30px 0 14px}
+.ruler .ticks{display:flex;justify-content:space-between}
+.ruler .tick{width:1px;background:var(--ink);height:7px}
+.ruler .tick.tall{height:13px}
+.ruler .arrows{display:flex;justify-content:space-between;font-size:.8rem;margin-top:2px}
+.wish{background:#fff;border:2px solid var(--ink);padding:12px 14px;margin:10px 0;font-size:.9rem;box-shadow:3px 4px 0 rgba(0,0,0,.06)}
+.wish b{font-family:'Caveat',cursive;font-size:1.15rem}
+.footer{border-top:2px dashed rgba(0,0,0,.25);margin-top:44px;padding:24px 0 40px;text-align:center}
+.watermark{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:4px;color:rgba(0,0,0,.35);margin-top:14px}
+.wa-btn{display:inline-flex;align-items:center;gap:10px;margin-top:16px;padding:12px 22px;border:2px solid var(--ink);border-radius:50px;background:#25D366;color:#fff;text-decoration:none;font-family:'Special Elite',monospace;font-size:.65rem;letter-spacing:2px;transition:transform .2s;transform:rotate(-1deg)}
 .wa-btn:hover{transform:rotate(1deg) scale(1.04)}
 .wa-btn svg{width:20px;height:20px;fill:#fff}
+.center{text-align:center}
 </style>
 </head>
 <body>
 
-<!-- ============ LEMBAR 01 · COVER ============ -->
-<section class="sheet" id="lembar-1" data-nav="awal">
-  <div class="wrap">
-    <div class="sheet-head">
-      <span class="caps" style="color:var(--red)">♥ Selamanya</span>
-      <span class="badge">Lembar 01</span>
-    </div>
-    <div style="text-align:center;margin-top:36px">
-      <p class="caps" style="color:#888">Undangan Pernikahan</p>
-      <h1 class="hand" style="font-size:3.2rem;line-height:1.05;margin:12px 0">
-        <span data-bride>Kanaya</span><br>&amp;<br><span data-groom>Bima</span>
-      </h1>
-      <div class="polaroid r1 rv" style="width:75%;margin:26px auto">
-        <img data-img="cover" alt="Foto couple">
-        <span class="caps" style="position:absolute;bottom:6px;right:12px;color:#aaa">01</span>
-      </div>
-      <p class="caps" style="margin-top:22px;color:#555">Kepada</p>
-      <h2 class="hand" style="font-size:1.8rem" id="guestName">Tamu Tersayang</h2>
-      <div style="margin-top:26px"><span class="stamp">Disetujui Ortu</span></div>
-      <p style="margin-top:20px;color:#777;font-size:.9rem">Buka lembar berikutnya,<br>kami tunggu kehadiranmu ♥</p>
-      <a href="#lembar-2" class="btn" style="margin-top:18px" onclick="document.getElementById('lembar-2').classList.add('visible')">
-        Buka Lembar Berikutnya →
-      </a>
-    </div>
-  </div>
+<!-- ================= LEMBAR 01 · COVER ================= -->
+<section class="sheet" id="awal">
+<div class="wrap">
+<div class="sheet-head">
+<span class="caps" style="color:var(--red)">♥ Selamanya</span>
+<span class="badge">Lembar 01</span>
+</div>
+<div class="center" style="margin-top:36px">
+<p class="caps" style="color:#888">Undangan Pernikahan</p>
+<h1 class="hand" id="titleNames" style="font-size:3.1rem;line-height:1.05;margin:12px 0"></h1>
+<div class="polaroid r1 rv" style="width:75%;margin:28px auto">
+<div class="clip"></div>
+<img id="imgCover" alt="Foto couple">
+<span class="pnum">01</span>
+</div>
+<p class="caps" style="margin-top:22px;color:#555">Kepada</p>
+<h2 class="hand" style="font-size:1.8rem" id="guestName">Tamu Tersayang</h2>
+<div style="margin-top:26px"><span class="stamp">Disetujui Ortu</span></div>
+<p style="margin-top:20px;color:#777;font-size:.9rem">Buka lembar berikutnya,<br>kami tunggu kehadiranmu ♥</p>
+<a href="#couple" class="btn" style="margin-top:18px">Buka Lembar Berikutnya →</a>
+</div>
+</div>
 </section>
 
-<!-- ============ LEMBAR 02 · COUPLE ============ -->
-<section class="sheet" id="lembar-2" data-nav="awal">
-  <div class="wrap">
-    <div class="sheet-head">
-      <span class="caps">Proyek · <span data-couple-short>Naya &amp; Bima</span> · 8 November 2026</span>
-      <span class="badge">Lembar 02</span>
-    </div>
-    <div style="display:flex;gap:12px;margin-top:26px">
-      <div class="polaroid r1 rv" style="flex:1"><img data-img="bride" alt="Mempelai wanita"></div>
-      <div class="hand" style="font-size:2.4rem;align-self:center">&amp;</div>
-      <div class="polaroid r2 rv" style="flex:1"><img data-img="groom" alt="Mempelai pria"></div>
-    </div>
-    <p style="text-align:center;margin-top:16px" class="caps">— <span data-couple-short>Naya &amp; Bima</span> —</p>
-    <div class="rv" style="text-align:center;margin-top:18px">
-      <h2 class="hand" style="font-size:1.9rem">Digambar pelan, diwarnai bareng.</h2>
-      <p style="color:#666;font-size:.92rem;margin-top:10px">
-        Dari sekadar obrolan, tumbuh rasa yang kami rawat pelan-pelan.
-        Sekarang, kami mau menggambar babak baru: sebuah rumah, doa, dan masa depan —
-        bersama. Dan kita mulai dari sini, <b style="color:var(--red)">8 November 2026</b>.
-      </p>
-    </div>
-    <div class="cal rv">
-      <div style="text-align:center"><span class="caps" style="color:var(--red)">Denah Bulan · November 2026</span></div>
-      <div class="grid" data-calendar></div>
-    </div>
-    <div class="taped rv">
-      <span class="caps" style="color:var(--red)">Catatan Desain</span>
-      <blockquote>
-        <span class="big-quote">“</span>Letakkan kelembutan pada tiap garis, jadikan cinta arsiran yang tak pernah habis.
-        <div style="text-align:right;font-size:.8rem;margin-top:6px">— QS Ar-Rum: 21 —</div>
-      </blockquote>
-      <p style="font-size:.9rem;color:#555">"Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu..."</p>
-    </div>
-    <div class="next-sheet"><a href="#lembar-3">Lembar 03 →</a></div>
-  </div>
+<!-- ================= LEMBAR 02 · COUPLE ================= -->
+<section class="sheet" id="couple">
+<div class="wrap">
+<div class="sheet-head">
+<span class="caps" id="headCouple"></span>
+<span class="badge">Lembar 02</span>
+</div>
+<div style="display:flex;gap:12px;margin-top:28px;align-items:center">
+<div class="polaroid r1 rv" style="flex:1"><img id="imgBride1" alt="Mempelai wanita"><span class="pnum">KP</span></div>
+<div class="hand" style="font-size:2.4rem">&amp;</div>
+<div class="polaroid r2 rv" style="flex:1"><img id="imgGroom1" alt="Mempelai pria"><span class="pnum">BA</span></div>
+</div>
+<p class="center caps rv" style="margin-top:16px" id="scaleNames"></p>
+<div class="center rv" style="margin-top:18px">
+<h2 class="hand" style="font-size:1.9rem">Digambar pelan, diwarnai bareng.</h2>
+<p style="color:#666;font-size:.92rem;margin-top:10px">
+Dari sekadar obrolan, tumbuh rasa yang kami rawat pelan-pelan.
+Sekarang, kami mau menggambar babak baru: sebuah rumah, doa, dan masa depan — bersama.
+Dan kita mulai dari sini, <b style="color:var(--red)" id="dateLong"></b>.
+</p>
+</div>
+<div class="cal rv">
+<div class="center"><span class="caps" style="color:var(--red)" id="calLabel"></span></div>
+<div class="grid" id="calGrid"></div>
+</div>
+<div class="taped rv">
+<span class="caps" style="color:var(--red)">Catatan Desain</span>
+<blockquote>
+<span class="big-quote">“</span>Letakkan kelembutan pada tiap garis, jadikan cinta arsiran yang tak pernah habis.
+<div style="text-align:right;font-size:.8rem;margin-top:6px">— QS Ar-Rum: 21 —</div>
+</blockquote>
+<p style="font-size:.9rem;color:#555">"Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."</p>
+</div>
+<div class="next-sheet"><a href="#profil">Lembar 03 →</a></div>
+</div>
 </section>
 
-<!-- ============ LEMBAR 03 · SPESIFIKASI ============ -->
-<section class="sheet" id="lembar-3" data-nav="awal">
-  <div class="wrap">
-    <div class="sheet-head">
-      <span class="caps">Seksi · Profil</span>
-      <span class="badge">Lembar 03</span>
-    </div>
-    <div class="section-label rv"><span class="caps">— Spesifikasi</span></div>
-    <h2 class="section-title rv">Dua orang di gambar ini</h2>
+<!-- ================= LEMBAR 03 · PROFIL ================= -->
+<section class="sheet" id="profil">
+<div class="wrap">
+<div class="sheet-head">
+<span class="caps">Seksi · Profil</span>
+<span class="badge">Lembar 03</span>
+</div>
+<div class="section-label rv"><span class="caps">— Spesifikasi</span></div>
+<h2 class="section-title rv">Dua orang di gambar ini</h2>
 
-    <!-- mempelai wanita -->
-    <div class="profile rv">
-      <div class="photo"><img data-img="bride" alt="Mempelai wanita"></div>
-      <div class="info">
-        <span class="caps tag">Mempelai Wanita</span>
-        <h3 data-bride-full>Kanaya Prameswari</h3>
-        <p data-bride-parents>Putri dari Bpk. Ayah Kanaya &amp; Ibu Ibunda Kanaya</p>
-        <a class="btn-ig" data-ig-bride href="#" target="_blank">◈ Instagram</a>
-      </div>
-    </div>
+<div class="profile rv">
+<div class="photo"><img id="imgBride2" alt="Mempelai wanita"></div>
+<div class="info">
+<span class="caps tag">Mempelai Wanita</span>
+<h3 id="brideFull"></h3>
+<p id="brideParents"></p>
+<a class="btn-ig" id="igBride" href="#" target="_blank">◈ Instagram</a>
+</div>
+</div>
 
-    <!-- mempelai pria -->
-    <div class="profile rv">
-      <div class="photo"><img data-img="groom" alt="Mempelai pria"></div>
-      <div class="info">
-        <span class="caps tag b">Mempelai Pria</span>
-        <h3 data-groom-full>Bimasena Adyatma</h3>
-        <p data-groom-parents>Putra dari Bpk. Ayah Bima &amp; Ibu Ibunda Bima</p>
-        <a class="btn-ig" data-ig-groom href="#" target="_blank">◈ Instagram</a>
-      </div>
-    </div>
-    <div class="next-sheet"><a href="#lembar-4">Lembar 04 →</a></div>
-  </div>
+<div class="profile rv">
+<div class="photo"><img id="imgGroom2" alt="Mempelai pria"></div>
+<div class="info">
+<span class="caps tagb">Mempelai Pria</span>
+<h3 id="groomFull"></h3>
+<p id="groomParents"></p>
+<a class="btn-ig" id="igGroom" href="#" target="_blank">◈ Instagram</a>
+</div>
+</div>
+
+<div class="section-label rv"><span class="caps">— Lembar Dress Code</span></div>
+<h2 class="section-title rv">Spesifikasi busana</h2>
+<div class="taped rv">
+<span class="caps" style="color:var(--red)">Tema Busana</span>
+<h3 class="hand" style="font-size:2rem;margin:6px 0">Smart Casual</h3>
+<div class="legend">
+<div><div class="sw" style="background:#2c3e50"></div><div class="caps" style="font-size:.5rem">2C3E50</div></div>
+<div><div class="sw" style="background:#c9a227"></div><div class="caps" style="font-size:.5rem">C9A227</div></div>
+<div><div class="sw" style="background:#a8c66c"></div><div class="caps" style="font-size:.5rem">A8C66C</div></div>
+</div>
+<blockquote style="font-size:.85rem">Kami sarankan tamu memakai palet warna netral dan lembut: biru tua, coklat emas, atau hijau muda. Hindari warna terlalu mencolok agar serasi dengan nuansa sketsa acara kami.</blockquote>
+</div>
+<div class="next-sheet"><a href="#denah">Lembar 05 →</a></div>
+</div>
 </section>
 
-<!-- ============ LEMBAR 04 · DENAH ACARA ============ -->
-<section class="sheet" id="lembar-4" data-nav="denah">
-  <div class="wrap">
-    <div class="sheet-head">
-      <span class="caps">Seksi · Denah Acara</span>
-      <span class="badge">Lembar 05</span>
-    </div>
-    <div class="section-label rv"><span class="caps">— Denah Acara</span></div>
-    <h2 class="section-title rv">Waktu &amp; tempat</h2>
+<!-- ================= LEMBAR 05 · DENAH ACARA ================= -->
+<section class="sheet" id="denah">
+<div class="wrap">
+<div class="sheet-head">
+<span class="caps">Seksi · Denah Acara</span>
+<span class="badge">Lembar 05</span>
+</div>
+<div class="section-label rv"><span class="caps">— Denah Acara</span></div>
+<h2 class="section-title rv">Waktu &amp; tempat</h2>
 
-    <div class="taped rv" style="margin-bottom:20px">
-      <span class="caps" style="color:var(--red)">Akad Nikah</span>
-      <h3 class="hand" style="font-size:1.6rem;margin:6px 0">Minggu, 8 November
+<div class="taped rv">
+<span class="caps tag">Akad Nikah</span>
+<h3 class="hand" style="font-size:1.6rem;margin:6px 0" id="akadDate"></h3>
+<p id="akadTime" style="color:#555"></p>
+<p id="akadPlace" style="color:#555"></p>
+</div>
+<div class="taped rv">
+<span class="caps tagb">Resepsi</span>
+<h3 class="hand" style="font-size:1.6rem;margin:6px 0" id="resepsiDate"></h3>
+<p id="resepsiTime" style="color:#555"></p>
+<p id="resepsiPlace" style="color:#555"></p>
+</div>
+<div class="center rv">
+<a class="btn" id="btnMaps" href="#" target="_blank">🗺 Buka Google Maps</a>
+</div>
+<div class="next-sheet"><a href="#galeri">Lembar 06 →</a></div>
+</div>
+</section>
+
+<!-- ================= LEMBAR 06 · GALERI ================= -->
+<section class="sheet" id="galeri">
+<div class="wrap">
+<div class="sheet-head">
+<span class="caps">Seksi · Galeri</span>
+<span class="badge">Lembar 06</span>
+</div>
+<div class="section-label rv"><span class="caps">— Lembar Kontak</span></div>
+<h2 class="section-title rv">Referensi visual</h2>
+<div class="gallery" id="gallery"></div>
+<p class="center" style="color:#999;font-size:.85rem">ketuk foto untuk memperbesar</p>
+<div class="next-sheet"><a href="#kado">Lembar 07 →</a></div>
+</div>
+</section>
+
+<!-- ================= LEMBAR 07 · KADO & DOA ================= -->
+<section class="sheet" id="kado">
+<div class="wrap">
+<div class="sheet-head">
+<span class="caps">Seksi · Tanda Kasih</span>
+<span class="badge">Lembar 07</span>
+</div>
+<div class="section-label rv"><span class="caps">— Tanda Kasih</span></div>
+<h2 class="section-title rv">Mau nitip sesuatu?</h2>
+<p class="center rv" style="color:#666;font-size:.92rem">Doa kamu udah lebih dari cukup.<br>Tapi kalau mau transfer, ini rekeningnya.</p>
+<div class="center rv" style="margin:20px 0">
+<button class="btn" id="openGift">🎁 Kirim Kado</button>
+</div>
+
+<div class="section-label rv" id="doa"><span class="caps">— Catatan Revisi</span></div>
+<h2 class="section-title rv">Kirimkan doa</h2>
+<div class="center rv">
+<button class="btn" id="openWish" style="border-color:var(--red);color:var(--red)">♥ Tulis Doa &amp; Ucapan</button>
+</div>
+<div id="wishList" style="margin-top:20px"></div>
+
+<div class="next-sheet"><a href="#penutup">Lembar 08 →</a></div>
+</div>
+</section>
+
+<!-- ================= LEMBAR 08 · PENUTUP & HADIR ================= -->
+<section class="sheet" id="penutup">
+<div class="wrap">
+<div class="sheet-head">
+<span class="caps">Seksi · Lembar Terakhir</span>
+<span class="badge">Lembar 08</span>
+</div>
+<div class="section-label rv"><span class="caps">— Lembar Hadir</span></div>
+<h2 class="section-title rv">Kamu ikut di gambar ini?</h2>
+<div class="taped rv" style="border-style:dashed">
+<span class="stamp" style="float:right;marginleft:0">Perlu Paraf</span>
+    <p style="color:#555;font-size:.92rem">Isi konfirmasi sebentar — biar kursimu ikut kegambar di denah.</p>
+    <div class="center" style="margin-top:14px">
+      <button class="btn" id="openRsvp" style="border-color:var(--red);color:var(--red)">♥ Konfirmasi Hadir</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p class="caps">— Sekian Lembar, Satu Bab Baru —</p>
+    <h2 class="hand" style="font-size:2.2rem;margin:10px 0" id="footerNames"></h2>
+    <p style="color:#777;font-size:.9rem">Merupakan suatu kehormatan apabila Bapak/Ibu/Saudara berkenan hadir dan memberikan doa restu.</p>
+    <a class="wa-btn" id="waBtn" href="#" target="_blank">
+      <svg viewBox="0 0 32 32"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.6.8 5 2.3 7L4 29l7.2-2.3c1.9 1 4 1.5 6.3 1.5h.5c6.6 0 12-5.4 12-12S22.6 3 16 3zm5.5 16.1c-.3.8-1.6 1.5-2.4 1.6-.5.1-1.2.1-2-.2-.5-.2-1.1-.4-1.9-.7-3.3-1.4-5.4-4.7-5.6-4.9-.2-.3-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.7c.3-.3.6-.4.8-.4h.6c.2 0 .5 0 .7.5.2.6.8 2 .9 2.1.1.2.1.4 0 .5-.1.2-.3.4-.5.6l-.3.4c-.1.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.8 1.7.3.1.5.1.6-.1l.9-1c.2-.2.4-.3.6-.2.3.1 2.1 1 2.4 1.2.3.1.5.2.5.3.1.2.1.8-.2 1.5z"/></svg>
+      Hubungi Kami
+    </a>
+    <div class="watermark">© pkseh</div>
+  </div>
+</div>
+</section>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+  <div class="-nav-inner">
+    <a href="#awal" data-sec="awal"><svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10a1 1 0 01-1 1h-5v-6H10v6H4a1 1 0 01-1-1z"/></svg>AWAL</a>
+    <a href="#denah" data-sec="denah"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>DENAH</a>
+    <a href="#kado" data-sec="kado"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4"/><path d="M5 12v8h14v-8M12 8v12M12 8c-1.5-4-6-4-6-1s4 1 6 1zm0 0c1.5-4 6-4 6-1s-4 1-6 1z"/></svg>KADO</a>
+    <a href="#kado" data-sec="doa"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-8 8H4l2-3a8 8 0 108 8 8 0 0113-5z"/></svg>DOA</a>
+    <a href="#penutup" data-sec="penutup"><svg viewBox="0 0 24 24"><path d="M12 21C7 17 3 13.5 3 9.5A4.5 4.5 0 0112 6a4.5 4.5 0 019 3.5c0 4-4 7.5-9 11.5z"/></svg>HADIR</a>
+  </div>
+</nav>
+
+<!-- ================= MUSIK ================= -->
+<button id="musicBtn" aria-label="Musik">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2b2b2b" stroke-width="2" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+</button>
+<audio id="bgm" loop></audio>
+
+<!-- ================= LIGHTBOX ================= -->
+<div id="lightbox">
+  <button class="close" onclick="lbClose()">✕</button>
+  <button class="prev" onclick="lbNav(-1,event)">←</button>
+  <img id="lbImg" alt="">
+  <button class="next" onclick="lbNav(1,event)">→</button>
+</div>
+
+<!-- ================= MODAL RSVP ================= -->
+<div class="modal" id="rsvpModal">
+  <div class="panel">
+    <div class="handle"></div>
+    <button class="close-x" onclick="closeModal('rsvpModal')">✕</button>
+    <h3>Konfirmasi Kehadiran</h3>
+    <label>Nama</label>
+    <input id="rsvpName" placeholder="Nama lengkap">
+    <label>Jumlah tamu</label>
+    <input id="rsvpCount" type="number" min="1" value="1" style="border:2px solid #999;padding:8px">
+    <label>Kehadiran</label>
+    <div id="rsvpOpts">
+      <span class="opt sel" data-v="Hadir">✓ Hadir</span>
+      <span class="opt" data-v="Belum Pasti">? Belum Pasti</span>
+      <span class="opt" data-v="Tidak Hadir">✕ Maaf, Tidak</span>
+    </div>
+    <div class="center" style="margin-top:18px">
+      <button class="btn primary" onclick="submitRsvp()">Kirim Konfirmasi</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL KADO ================= -->
+<div class="modal" id="giftModal">
+  <div class="panel">
+    <div class="handle"></div>
+    <button class="close-x" onclick="closeModal('giftModal')">✕</button>
+    <h3>Tanda Kasih</h3>
+    <div id="rekenings"></div>
+    <div class="center" style="margin-top:18px">
+      <button class="btn" id="giftWA" style="border-color:var(--red);color:var(--red)">Kirim via WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL DOA ================= -->
+<div class="modal" id="wishModal">
+  <div class="panel">
+    <div class="handle"></div>
+    <button class="close-x" onclick="closeModal('wishModal')">✕</button>
+    <h3>Tulis Doa &amp; Ucapan</h3>
+    <label>Nama</label>
+    <input id="wishName" placeholder="Nama kamu">
+    <label>Doa / Ucapan</label>
+    <textarea id="wishText" placeholder="Tuliskan doa terbaikmu..."></textarea>
+    <div class="center" style="margin-top:18px">
+      <button class="btn primary" onclick="submitWish()">Kirim Doa</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   ★ CONFIG — UBAH DATA DI SINI SAJA ★
+   ========================================================= */
+const CONFIG = {
+  bride: { nama: "Kanaya", full: "Kanaya Prameswari",
+           ortu: "Putri dari Bpk. Ayah Kanaya & Ibu Ibunda Kanaya",
+           ig: "https://instagram.com/username" },
+  groom: { nama: "Bima", full: "Bimasena Adyatma",
+           ortu: "Putra dari Bpk. Ayah Bima & Ibu Ibunda Bima",
+           ig: "https://instagram.com/username" },
+  tanggal: "Minggu, 8 November 2026",
+  akad:    { tgl: "Minggu, 8 November 2026", jam: "08.00 – 10.00 WIB",
+             tempat: "Masjid Al-Ikhlas, Jakarta" },
+  resepsi: { tgl: "Minggu, 8 November 2026", jam: "11.00 – 14.00 WIB",
+             tempat: "Gedung Serbaguna Melati, Jakarta" },
+  mapsUrl: "https://maps.google.com",
+  // FOTO: taruh file di folder yang sama, tulis nama file di sini
+  foto: { cover: "img/cover.jpg", bride: "img/bride.jpg", groom: "img/groom.jpg",
+          galeri: ["img/galeri-1.jpg","img/galeri-2.jpg","img/galeri-3.jpg","img/galeri-4.jpg"] },
+  // MUSIK: taruh file musik di folder yang sama
+  musik: "music.mp3",
+  // WHATSAPP
+  wa: "6285156028912",
+  // REKENING / KADO
+  rekening: [
+    { bank: "BCA", nama: "Kanaya Prameswari", no: "1234567890" },
+    { bank: "Mandiri", nama: "Bimasena Adyatma", no: "9876543210" }
+  ]
+};
+
+/* ================= APLIKASI (tidak perlu diubah) ================= */
+const $ = s => document.querySelector(s);
+const PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23ddd' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' fill='%23888' font-size='20' text-anchor='middle' font-family='sans-serif'%3EFOTO%3C/text%3E%3C/svg%3E";
+
+// isi data
+$("#titleNames").innerHTML = CONFIG.bride.nama + "<br>&amp;<br>" + CONFIG.groom.nama;
+$("#headCouple").textContent = "Proyek · " + CONFIG.bride.nama + " & " + CONFIG.groom.nama;
+$("#scaleNames").textContent = "— " + CONFIG.bride.nama + " & " + CONFIG.groom.nama + " —";
+$("#dateLong").textContent = CONFIG.tanggal;
+$("#brideFull").textContent = CONFIG.bride.full;
+$("#brideParents").textContent = CONFIG.bride.ortu;
+$("#groomFull").textContent = CONFIG.groom.full;
+$("#groomParents").textContent = CONFIG.groom.ortu;
+$("#igBride").href = CONFIG.bride.ig;
+$("#igGroom").href = CONFIG.groom.ig;
+$("#akadDate").textContent = CONFIG.akad.tgl;
+$("#akadTime").textContent = CONFIG.akad.jam;
+$("#akadPlace").textContent = CONFIG.akad.tempat;
+$("#resepsiDate").textContent = CONFIG.resepsi.tgl;
+$("#resepsiTime").textContent = CONFIG.resepsi.jam;
+$("#resepsiPlace").textContent = CONFIG.resepsi.tempat;
+$("#btnMaps").href = CONFIG.mapsUrl;
+$("#footerNames").textContent = CONFIG.bride.nama + " & " + CONFIG.groom.nama;
+$("#waBtn").href = "https://wa.me/" + CONFIG.wa + "?text=" +
+  encodeURIComponent("Halo! Saya ingin bertanya tentang undangan " + CONFIG.bride.nama + " & " + CONFIG.groom.nama);
+$("#bgm").src = CONFIG.musik;
+
+// foto
+const imgs = [["#imgCover",CONFIG.foto.cover],["#imgBride1",CONFIG.foto.bride],
+  ["#imgGroom1",CONFIG.foto.groom],["#imgBride2",CONFIG.foto.bride],["#imgGroom2",CONFIG.foto.groom]];
+imgs.forEach(([sel,src]) => { const el=$(sel); el.src=src; el.onerror=()=>el.src=PLACEHOLDER; });
+
+// nama tamu dari URL ?to=Nama
+const to = new URLSearchParams(location.search).get("to");
+if (to) $("#guestName").textContent = decodeURIComponent(to).replace(/\+/g," ");
+
+// kalender November 2026
+const dows = ["SN","SL","RB","KM","JM","SB","MG"];
+$("#calLabel").textContent = "Denah Bulan · November 2026";
+let cal = dows.map(d => `<div class="dow">${d}</div>`).join("");
+for (let i = 0; i < 7; i++) cal += `<div class="day mute"></div>`; // 1 Nov 2026 = Minggu
+for (let d = 1; d <= 30; d++) cal += `<div class="day${d===8?" sel":""}">${d}</div>`;
+$("#calGrid").innerHTML = cal;
+
+// galeri + lightbox
+let lbIdx = 0;
+$("#gallery").innerHTML = CONFIG.foto.galeri.map((src,i) =>
+  `<div class="item rv" onclick="lbOpen(${i})"><span class="pnum" style="color:#fff;position:absolute;bottom:8px;right:8px;z-index:2">0${i+1}</span><img src="${src}" loading="lazy" onerror="this.src='${PLACEHOLDER}'" alt="Galeri ${i+1}"></div>`).join("");
+function lbOpen(i){ lbIdx=i; $("#lbImg").src=CONFIG.foto.galeri[i]; $("#lightbox").classList.add("open"); }
+function lbClose(){ $("#lightbox").classList.remove("open"); }
+function lbNav(d,e){ e.stopPropagation(); lbIdx=(lbIdx+d+CONFIG.foto.galeri.length)%CONFIG.foto.galeri.length; lbOpen(lbIdx); }
+$("#lightbox").addEventListener("click", e => { if(e.target.id==="lightbox") lbClose(); });
+
+// reveal on scroll
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if(e.isIntersecting){ e.target.classList.add("visible"); io.unobserve(e.target); }
+}), {threshold:.12});
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+// navbar aktif
+const secs = [...document.querySelectorAll(".sheet")];
+window.addEventListener("scroll", () => {
+  let cur = secs[0].id;
+  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  document.querySelectorAll(".navbar a").forEach(a =>
+    a.classList.toggle("active", a.dataset.sec === cur || a.getAttribute("href") === "#"+cur));
+}, {passive:true});
+
+// musik
+$("#musicBtn").addEventListener("click", () => {
+  const bgm = $("#bgm"), btn = $("#musicBtn");
+  if (bgm.paused) { bgm.play().catch(()=>{}); btn.classList.add("playing"); }
+  else { bgm.pause(); btn.classList.remove("playing"); }
+});
+
+// modal
+function openModal(id){ $("#"+id).classList.add("open"); }
+function closeModal(id){ $("#"+id).classList.remove("open"); }
+$("#openGift").addEventListener("click", () => openModal("giftModal"));
+$("#openWish").addEventListener("click", () => openModal("wishModal"));
+$("#openRsvp").addEventListener("click", () => openModal("rsvpModal"));
+
+// pilihan RSVP
+document.querySelectorAll("#rsvpOpts .opt").forEach(o =>
+  o.addEventListener("click", () => {
+    document.querySelectorAll("#rsvpOpts .opt").forEach(x => x.classList.remove("sel"));
+    o.classList.add("sel");
+  }));
+
+// submit RSVP → WhatsApp
+function submitRsvp(){
+  const nama = $("#rsvpName").value.trim(), jml = $("#rsvpCount").value;
+  const stat = document.querySelector("#rsvpOpts .opt.sel").dataset.v;
+  if(!nama){ alert("Isi nama dulu ya :)"); return; }
+  const msg = `Halo! Konfirmasi kehadiran:\nNama: ${nama}\nJumlah: ${jml}\nStatus: ${stat}`;
+  window.open(`https://wa.me/${CONFIG.wa}?text=${encodeURIComponent(msg)}`, "_blank");
+  closeModal("rsvpModal");
+}
+
+// doa (disimpan lokal + tampil)
+function renderWishes(){
+  const list = JSON.parse(localStorage.getItem("doa") || "[]");
+  $("#wishList").innerHTML = list.map(w =>
+    `<div class="wish rv visible"><b>${w.n}</b><br>${w.t}</div>`).join("");
+}
+function submitWish(){
+  const n = $("#wishName").value.trim(), t = $("#wishText").value.trim();
+  if(!n || !t){ alert("Nama dan doanya diisi dulu ya :)"); return; }
+  const list = JSON.parse(localStorage.getItem("doa") || "[]");
+  list.push({n, t}); localStorage.setItem("doa", JSON.stringify(list));
+  renderWishes(); closeModal("wishModal");
+  $("#wishName").value = ""; $("#wishText").value = "";
+}
+renderWishes();
+
+// rekening + copy
+$("#rekenings").innerHTML = CONFIG.rekening.map(r =>
+  `<div class="taped" style="padding:14px">
+     <span class="caps" style="color:var(--red)">${r.bank}</span>
+     <div class="hand" style="font-size:1.4rem">${r.no}</div>
+     <span style="font-size:.85rem;color:#555">${r.nama}</span><br>
+     <button class="btn" style="margin-top:8px;font-size:.6rem;padding:8px 14px" onclick="navigator.clipboard.writeText('${r.no}').then(()=>this.textContent='✓ Tersalin')">Salin No.</button>
+   </div>`).join("");
+$("#giftWA").addEventListener("click", () =>
+  window.open(`https://wa.me/${CONFIG.wa}?text=${encodeURIComponent("Halo! Saya ingin mengirim hadiah.")}`, "_blank"));
+</script>
+</body>
+</html>
